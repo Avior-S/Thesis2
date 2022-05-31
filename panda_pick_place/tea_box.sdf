@@ -1,0 +1,19 @@
+<model:physical name="tea_box_model">
+<xyz>   0  0  0.9</xyz>
+<rpy>   0.0    0.0    0.0</rpy>
+<static>false</static>
+<body:box name="tea_box_body">
+  <geom:box name="tea_box_geom">
+    <mu1>1.5</mu1>
+    <mu2>1.5</mu2>
+    <mesh>default</mesh>
+    <size>0.085 0.07 0.14</size>
+    <mass> 0</mass>
+    <visual>
+      <size>0.085 0.07 0.14</size>
+      <material>Gazebo/Red</material>
+      <mesh>unit_box</mesh>
+    </visual>
+  </geom:box>
+</body:box>
+</model:physical>

@@ -111,7 +111,7 @@ turtlebot3_model = rospy.get_param("model", "burger")
 if __name__=="__main__":
     # if os.name != 'nt':
     #     settings = termios.tcgetattr(sys.stdin)
-    rand_time = randrange(90, 200, 1)
+    rand_time = randrange(70, 230, 1)
     time.sleep(rand_time)
     rospy.init_node('turtlebot3_teleop', anonymous=True)
     pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)

@@ -13,6 +13,7 @@
 # from sensor_msgs.msg import JointState
 # from keyboard_subscriber import keyboard_subscribers
 # from gazebo_msgs.msg import ModelStates, ModelState
+import subprocess
 from math import radians, pi
 from tf.transformations import quaternion_from_euler, euler_from_quaternion
 from gripper_controller import *
@@ -21,7 +22,9 @@ import time
 import copy
 import rosbag_record
 
-
+def apply_statistics():
+    enable_statistics = "rosparam set enable_statistics true"
+    subprocess.Popen(enable_statistics, shell=True)
 
 def move_group_python_interface(controllers=None):
 
@@ -71,7 +74,7 @@ def move_group_python_interface(controllers=None):
 
     # start rosbag recording
     print("------------ step 1.5 -------------")
-    cmd, rosbag_proc = rosbag_record.start_record("rosbag record -a -b 1 -o bag_records/panda_test")#rosbag record -a -b 1 -o ./bag_records/panda_sim")
+    cmd, rosbag_proc = rosbag_record.start_record("rosbag record -a -b 1 -o bag_records/panda_test") # rosbag record -a -b 1 -o ./bag_records/panda_sim")
     time.sleep(5)
 
     # Step 2 - pre-grasp position
@@ -111,7 +114,7 @@ def move_group_python_interface(controllers=None):
     # Step 3 - close the gripper
     print("------------ step 3 -------------")
     #raw_input('close-enter')
-    gripper_close_on_object(object_width=0.025, gripper=controllers.sim_gripper) # 0.08 for apple
+    gripper_close_on_object(object_width=0.028, gripper=controllers.sim_gripper) # 0.08 for apple
 
     # Step 4 - pick the object
     print("------------ step 4 -------------")
@@ -184,7 +187,8 @@ def move_group_python_interface(controllers=None):
 
 if __name__ == '__main__':
     speedfactor = 4
-    n = 5
+    n = 10
+    apply_statistics()
 
     for i in range(n):
         # do n pick and place actions

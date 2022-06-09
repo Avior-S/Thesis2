@@ -7,7 +7,7 @@
 
 # !/usr/bin/env python
 # license removed for brevity
-
+import subprocess
 from threading import Thread
 import os
 import random
@@ -74,17 +74,22 @@ def add_unmapped_objects(pose_lst= [[4,2,0], [0,1,0], [3,1,0], [-1,0,0], [0,-0.2
                                                 robot_namespace=rospy.get_namespace(), initial_pose=object_pose,
                                                 reference_frame="", gazebo_namespace="/gazebo")
 
+
+def apply_statistics():
+    enable_statistics = "rosparam set enable_statistics true"
+    subprocess.Popen(enable_statistics, shell=True)
+
+
 if __name__ == '__main__':
 
-
+    apply_statistics()
     for i in range(5):
-        # add_unmapped_objects()
-        thread = Thread(target=os.system, args=["python velocity_attack.py"])
-        thread.start()
+        add_unmapped_objects()
+        # thread = Thread(target=os.system, args=["python velocity_attack.py"])
+        # thread.start()
 
-        # os.system("python velocity_attack.py")
         # start rosbag recording
-        cmd, rosbag_proc = rosbag_record.start_record("rosbag record -a -b 1 -o bag_records/abnormal/vel_atk")
+        cmd, rosbag_proc = rosbag_record.start_record("rosbag record -a -b 1 -o bag_records/vel_atk_navigation")
         print("------------ start recording -------------")
         time.sleep(5)
         try:
@@ -111,5 +116,5 @@ if __name__ == '__main__':
 
         print("------------ end recording -------------")
         rosbag_record.end_record(cmd, rosbag_proc)
-        thread.join()
-        time.sleep(2)
+        # thread.join()
+        time.sleep(4)
